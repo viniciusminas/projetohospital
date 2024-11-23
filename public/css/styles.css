@@ -1,3 +1,4 @@
+/* Corpo da página */
 body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
@@ -10,28 +11,33 @@ body {
     box-sizing: border-box;
 }
 
+/* Botão "Próxima" mais quadrado */
 #botao-proxima {
     font-size: 1.2rem;
-    padding: 10px;
+    padding: 12px 24px;
     cursor: pointer;
+    border-radius: 3px; /* Menos arredondado */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 #botao-proxima:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
 
-
+/* Configurações do container */
 .container {
     width: 100%;
-    max-width: 600px;
+    max-width: 1000px; /* Alterado de 800px para 1000px */
     padding: 20px;
-    margin: 20px;
+    margin: 0 auto;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
 }
 
+/* Título */
 h1 {
     text-align: center;
     color: #333;
@@ -41,6 +47,7 @@ h1 {
     letter-spacing: 1px;
 }
 
+/* Estilo para o contador, timer, dica e parágrafos */
 #contador, #timer, .dica, p {
     text-align: center;
     font-size: 16px;
@@ -75,6 +82,7 @@ h1 {
     font-weight: 400;
 }
 
+/* Estilo da escala de avaliação */
 .rating-scale {
     display: flex;
     flex-wrap: wrap;
@@ -87,61 +95,62 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 38px;
-    height: 38px;
-    font-size: 14px;
-    line-height: 20px;
-    text-align: center;
-    border-radius: 5px;
+    width: 50px;  /* Aumentei o tamanho dos botões */
+    height: 50px; /* Aumentei o tamanho dos botões */
+    font-size: 18px; /* Aumentando o tamanho da fonte */
+    border-radius: 6px;  /* Bordas ligeiramente arredondadas para um toque moderno */
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Efeito de hover nos botões da escala */
 .rating-scale div:hover {
     transform: scale(1.2);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* Cores da escala de avaliação */
 .low {
-    background-color: #e74c3c; 
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: #dc3545;  /* Vermelho */
+    color: #fff;
 }
 
 .mid-low {
-    background-color: #f39c12; 
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: #fd7e14;  /* Laranja */
+    color: #fff;
 }
 
 .mid {
-    background-color: #f1c40f;
+    background-color: #ffc107;  /* Amarelo */
     color: #333;
-    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .mid-high {
-    background-color: #2ecc71;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: #28a745;  /* Verde */
+    color: #fff;
 }
 
 .high {
-    background-color: #27ae60;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: #17a2b8;  /* Azul */
+    color: #fff;
 }
 
+/* Efeito quando a avaliação é selecionada */
 .selected {
     border: 2px solid #333;
     background-color: #cccccc;
     color: #333;
-    transform: scale(1.1); 
+    transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Estilo para as avaliações com gradiente */
 .low, .mid-low, .mid, .mid-high, .high {
-    background-image: linear-gradient(135deg, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
+    background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
 }
 
-
+/* Estilo da área de texto */
 textarea {
     width: 100%;
     height: 80px;
@@ -152,12 +161,13 @@ textarea {
     resize: none;
 }
 
+/* Estilo do botão "Próxima" */
 button {
-    background-color: #007bff;
+    background-color: #007bff;  /* Azul padrão do Bootstrap */
     color: white;
     border: none;
     padding: 12px 24px;
-    border-radius: 5px;
+    border-radius: 3px;  /* Bordas mais quadradas */
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
@@ -170,36 +180,26 @@ button {
     text-align: center;
 }
 
+/* Efeito de hover no botão */
 button:hover {
     background-color: #0056b3;
     transform: scale(1.03);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Estilo do botão desabilitado */
 button:disabled {
     background-color: #b0b0b0;
     cursor: not-allowed;
     box-shadow: none;
 }
 
-/* Feedback */
-.feedback-container {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.feedback-container label {
-    display: block;
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 8px;
-}
-
+/* Estilo do rodapé */
 .footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #2c3e50;
+    background-color: #343a40;  /* Cor de fundo do rodapé */
     color: #ffffff;
     text-align: center;
     padding: 15px;
@@ -213,21 +213,34 @@ button:disabled {
     line-height: 1.5;
 }
 
-/* Media Query para telas menores */
+/* Estilo da área de feedback */
+.feedback-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.feedback-container label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+/* Media Queries */
 @media (max-width: 480px) {
     h1 {
         font-size: 20px;
     }
 
     #contador, #timer, .dica, p {
-        font-size: 14px;  
+        font-size: 14px;
     }
 
     .rating-scale div {
-        width: 45px; 
+        width: 45px;
         height: 45px;
         line-height: 45px;
-        font-size: 12px; 
+        font-size: 12px;
     }
 
     button {
@@ -240,8 +253,8 @@ button:disabled {
     }
 
     .footer {
-        font-size: 0.8em;  
-        padding: 10px;  
+        font-size: 0.8em;
+        padding: 10px;
     }
 }
 

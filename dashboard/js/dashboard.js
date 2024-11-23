@@ -1,8 +1,10 @@
-let graficoInstancia;
+// Arquivo: dashboard.js
 
+// Adiciona evento para o botão de atualização
 document.getElementById('atualizar').addEventListener('click', () => {
     const setor = document.getElementById('setor').value;
 
+    // Verifica se um setor foi selecionado
     if (!setor) {
         alert('Selecione um setor para atualizar.');
         return;
@@ -12,99 +14,79 @@ document.getElementById('atualizar').addEventListener('click', () => {
     botao.innerHTML = 'Carregando...';
     botao.disabled = true;
 
-    fetch('data.php', {
+    // Faz a requisição para buscar os dados do backend
+    fetch(`data.php?setor=${encodeURIComponent(setor)}`, {
         method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${seuToken}`
-        },
-        body: JSON.stringify({ setor }) // Envia o parâmetro "setor" no corpo da requisição
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Erro ao buscar dados do dashboard');
+                throw new Error('Erro ao buscar dados do dashboard.');
             }
             return response.json();
         })
         .then(dados => {
+            // Atualiza a tabela e o gráfico com os dados recebidos
             atualizarTabela(dados);
             atualizarGrafico(dados);
         })
         .catch(error => {
             console.error('Erro:', error);
+            alert('Erro ao carregar os dados. Tente novamente mais tarde.');
         })
         .finally(() => {
+            // Restaura o botão após a requisição
             botao.innerHTML = 'Atualizar';
             botao.disabled = false;
         });
-    
 });
 
-
+// Atualiza a tabela com os dados recebidos
 function atualizarTabela(dados) {
-    const tabela = document.getElementById('tabelaAvaliacoes');
-    tabela.innerHTML = '';
+    const tabela = document.getElementById('tabelaDashboard');
+    tabela.innerHTML = ''; // Limpa a tabela
 
     dados.forEach(dado => {
         const linha = `
             <tr>
                 <td>${dado.pergunta}</td>
-                <td>${dado.setor || 'Não informado'}</td> 
-                <td>${dado.dispositivo || '1'}</td>
-                <td>${dado.media_resposta ? parseFloat(dado.media_resposta).toFixed(2) : '0.00'}</td>
-                <td>${dado.total_respostas || 0}</td>
+                <td>${dado.setor}</td>
+                <td>Desktop</td> <!-- Campo fixo como "Desktop" -->
+                <td>${parseFloat(dado.media_resposta).toFixed(2)}</td>
+                <td>${dado.total_respostas}</td>
             </tr>
         `;
         tabela.innerHTML += linha;
     });
 }
 
-// atualiza o gráfico com os dados recebidos
+// Atualiza o gráfico com os dados recebidos
 function atualizarGrafico(dados) {
-    const ctx = document.getElementById('graficoAvaliacoes').getContext('2d');
+    const ctx = document.getElementById('graficoDashboard').getContext('2d');
 
-    //destroi o gráfico existente, se houver
-    if (graficoInstancia) {
-        graficoInstancia.destroy();
-    }
+    // Extrai as perguntas e médias das respostas
+    const perguntas = dados.map(d => d.pergunta);
+    const medias = dados.map(d => parseFloat(d.media_resposta));
 
-    const labels = dados.map(dado => dado.pergunta);
-    const valores = dados.map(dado => parseFloat(dado.media_resposta));
-
-    // Cria um novo gráfico
-    graficoInstancia = new Chart(ctx, {
+    // Cria o gráfico de barras
+    new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: labels,
+            labels: perguntas,
             datasets: [{
-                label: 'Média das Avaliações',
-                data: valores,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+                label: 'Média das Respostas',
+                data: medias,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
             }]
         },
         options: {
             responsive: true,
-            plugins: {
-                tooltip: {
-                    enabled: true
-                },
-                datalabels: {
-                    color: '#000',
-                    anchor: 'center',
-                    align: 'end',
-                    formatter: (value) => value.toFixed(2)
-                }
-            },
             scales: {
                 y: {
-                    beginAtZero: true,
-                    suggestedMax: 12 //tamanho do gráfico, para nao ultrapassar as barras
+                    beginAtZero: true, // Garante que o eixo Y comece em zero
                 }
             }
-        },
-        plugins: [ChartDataLabels]
+        }
     });
-    
 }
-

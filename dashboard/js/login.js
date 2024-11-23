@@ -1,77 +1,50 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const jwt = localStorage.getItem('jwtToken');
+document.addEventListener('DOMContentLoaded', function () {
+    const loginForm = document.getElementById('loginForm');
+    const loginMessage = document.getElementById('loginMessage');
+    const loginButton = loginForm.querySelector('button[type="submit"]');
 
-    // Define o comportamento de exibição com base no token
-    if (!jwt) {
-        document.getElementById("loginContainer").style.display = "block";
-        document.getElementById("dashboardContainer").style.display = "none";
-    } else {
-        document.getElementById("loginContainer").style.display = "none";
-        document.getElementById("dashboardContainer").style.display = "block";
+    // Evento de envio do formulário
+    loginForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Evita recarregar a página
 
-        // Exemplo: carregar dados do dashboard
-        carregarDashboard(jwt);
-    }
+        const formData = new FormData(loginForm);
+        console.log([...formData.entries()]); // Debug: veja os valores enviados
 
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
+        // Exibe feedback visual de carregamento
+        loginButton.disabled = true;
+        loginMessage.textContent = 'Processando...';
 
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        try {
-            const response = await fetch('create.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
+        // Envia requisição para o servidor
+        fetch('login.php', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na resposta do servidor');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.sucesso) {
+                    alert(data.sucesso); // Exibe mensagem de sucesso
+                    window.location.href = 'dashboard.php';
+                } else {
+                    mostrarMensagemErro(data.erro || 'Erro ao autenticar.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                mostrarMensagemErro('Erro ao processar sua solicitação. Tente novamente mais tarde.');
+            })
+            .finally(() => {
+                loginButton.disabled = false; // Reabilita o botão após a requisição
             });
-
-            console.log('Status da resposta:', response.status);
-
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.erro || 'Erro ao autenticar');
-            }
-
-            const data = await response.json();
-            if (data.token) {
-                localStorage.setItem('jwtToken', data.token); // Salva o token
-                document.getElementById("loginContainer").style.display = "none";
-                document.getElementById("dashboardContainer").style.display = "block";
-
-                carregarDashboard(data.token); // Atualiza o dashboard
-            } else {
-                throw new Error(data.erro || 'Erro desconhecido');
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-            document.getElementById('loginMessage').textContent = error.message || 'Erro ao fazer login.';
-        }
     });
-});
 
-async function carregarDashboard(jwt) {
-    try {
-        const response = await fetch('data.php', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${jwt}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        console.log('Status da resposta:', response.status);
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.erro || 'Erro ao carregar dashboard');
-        }
-
-        const data = await response.json();
-        console.log('Dados do Dashboard:', data);
-    } catch (error) {
-        console.error('Erro ao carregar dashboard:', error);
+    // Função para exibir mensagens de erro
+    function mostrarMensagemErro(mensagem) {
+        loginMessage.textContent = mensagem;
+        loginMessage.style.color = 'red'; // Adiciona cor para destacar o erro
     }
-}
+});

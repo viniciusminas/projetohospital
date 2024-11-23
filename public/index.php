@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/script.js" defer></script>
+    <link rel="icon" href="../img/logo.png" type="image/png">
 </head>
 <body onload="carregarPergunta()">
 
     <div class="container">
         <h1>Hospital Regional Alto Vale</h1>
-        <p id="contador">Pergunta <span id="numero-pergunta">1</span> de 3</p>
+        <p id="contador">Pergunta <span id="numero-pergunta">1</span> de 2</p>
         <p id="pergunta-texto">Carregando pergunta...</p>
         <p id="timer"></p>
 
@@ -53,7 +54,6 @@
             <div class="high" onclick="setResposta(10)">10</div>
         </div>
 
-        <!-- Botão para ir para a próxima pergunta -->
         <button id="botao-proxima" disabled class="btn btn-primary mt-3 w-100">Próxima</button>
 
     </div>
@@ -63,6 +63,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
 </html>

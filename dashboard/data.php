@@ -1,47 +1,12 @@
 <?php
-require_once '../vendor/autoload.php';
-require_once '../src/db.php';
+session_start(); // Inicia a sessão
 
-function verificarJWT($jwt) {
-    $chaveSecreta = 'sua-chave-secreta'; 
+require_once '../src/db.php'; // Conectar ao banco de dados
 
-    try {
-        $dados = \Firebase\JWT\JWT::decode($jwt, new \Firebase\JWT\Key($chaveSecreta, 'HS256'));
-        return $dados;
-    } catch (Exception $e) {
-        return null;
-    }
-}
-
-// Permitir ambos os métodos 
-$metodo = $_SERVER['REQUEST_METHOD'];
-if (!in_array($metodo, ['POST', 'GET'])) {
-    http_response_code(405);
-    echo json_encode(['erro' => 'Método não permitido.']);
-    exit;
-}
-
-// Verifica se o JWT está presente no cabeçalho da requisição
-$headers = getallheaders();
-if (!isset($headers['Authorization'])) {
+// Verifica se o usuário está autenticado
+if (!isset($_SESSION['usuario_id'])) {
     http_response_code(401);
-    echo json_encode(['erro' => 'Acesso negado. Token não fornecido.']);
-    exit;
-}
-
-// Extrai o token do cabeçalho (formato: "Bearer <token>")
-list($tipo, $jwt) = explode(' ', $headers['Authorization'], 2);
-if ($tipo !== 'Bearer' || !$jwt) {
-    http_response_code(401);
-    echo json_encode(['erro' => 'Acesso negado. Token inválido.']);
-    exit;
-}
-
-// Valida o token JWT
-$dadosUsuario = verificarJWT($jwt);
-if (!$dadosUsuario) {
-    http_response_code(401);
-    echo json_encode(['erro' => 'Acesso negado. Token inválido ou expirado.']);
+    echo json_encode(['erro' => 'Acesso negado. Usuário não autenticado.']);
     exit;
 }
 
@@ -81,10 +46,11 @@ header('Content-Type: application/json');
 
 try {
     // Aceitar parâmetros tanto de GET quanto de POST
+    $metodo = $_SERVER['REQUEST_METHOD'];
     $input = $metodo === 'POST' 
         ? json_decode(file_get_contents('php://input'), true) 
         : $_GET;
-    
+
     $setor = isset($input['setor']) ? urldecode($input['setor']) : null;
 
     $dados = obterDadosDashboard($setor);
