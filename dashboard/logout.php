@@ -1,9 +1,15 @@
 <?php
 session_start(); // Inicia a sessão
 
-// Destrói a sessão e redireciona para a tela de login
-session_unset();
-session_destroy();
+// Destrói todas as variáveis da sessão
+session_unset(); 
 
-echo json_encode(['sucesso' => 'Sessão encerrada com sucesso.']);
+// Destroi a sessão
+session_destroy(); 
+
+// Redireciona para a página de login
+header("Location: login.php");
+exit(); // Garante que o código após o redirecionamento não seja executado
 ?>
+
+

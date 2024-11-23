@@ -23,10 +23,11 @@
                     <a class="nav-link active" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="cadastrar-perguntas.php" target="_blank">Cadastrar Perguntas</a>
+                    <a class="nav-link" href="cadastrar-perguntas.php" target="_blank">Configurações (Perguntas)</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php">Sair</a>
+                    
                 </li>
             </ul>
         </div>
@@ -74,3 +75,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+
+

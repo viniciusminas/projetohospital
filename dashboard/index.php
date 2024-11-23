@@ -11,7 +11,7 @@
 <body>
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div id="loginContainer">
-            <h2 class="text-primary">Bem-vindo!</h2>
+            <h2 class="text-primary">Administrativo - HRAV</h2>
             <p class="text-muted">Faça login para acessar o sistema</p>
             <form id="loginForm">
                 <div class="mb-3">

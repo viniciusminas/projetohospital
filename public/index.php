@@ -14,7 +14,7 @@
 
     <div class="container">
         <h1>Hospital Regional Alto Vale</h1>
-        <p id="contador">Pergunta <span id="numero-pergunta">1</span> de 2</p>
+        <p id="contador">Pergunta <span id="numero-pergunta">1</p>
         <p id="pergunta-texto">Carregando pergunta...</p>
         <p id="timer"></p>
 

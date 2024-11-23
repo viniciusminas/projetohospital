@@ -1,7 +1,7 @@
 <?php
-session_start(); // Inicia a sessão
+session_start();
 
-require_once '../src/db.php'; // Conectar ao banco de dados
+require_once '../src/db.php';
 
 // Verifica se o usuário está autenticado
 if (!isset($_SESSION['usuario_id'])) {

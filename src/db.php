@@ -1,9 +1,6 @@
 <?php
 require_once '../config.php';
 
-
-$conexao = conectarBanco();  
-
 function conectarBanco() {
     // constantes definidas no config.php
     $dsn = "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME;
@@ -17,8 +14,10 @@ function conectarBanco() {
 
         return $pdo;
     } catch (PDOException $e) {
-        // teste
+        // Finaliza o script se houver erro na conexão
         die("Erro na conexão com o banco de dados: " . $e->getMessage());
     }
 }
-?>
+
+// Torna a conexão disponível globalmente
+$pdo = conectarBanco();
