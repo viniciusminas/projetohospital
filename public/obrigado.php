@@ -19,7 +19,6 @@ try {
     echo "O Hospital Regional Alto Vale (HRAV) agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.";
 
 } catch (Exception $e) {
-    // Em caso de erro, desfaz a transação
     $pdo->rollBack();
     echo "Erro ao salvar avaliação: " . $e->getMessage();
 }

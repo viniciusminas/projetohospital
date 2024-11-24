@@ -1,12 +1,10 @@
 <?php
-require_once '../src/db.php'; // Inclui a conexão com o banco de dados
+require_once '../src/db.php'; 
 
-// Verifica se há uma conexão ativa
 if (!$pdo) {
     die("Erro: Não foi possível conectar ao banco de dados.");
 }
 
-// Exemplo: Obtendo a lista de dispositivos do banco de dados
 try {
     $query = $pdo->query("SELECT id, nome, setor_id FROM dispositivos");
     $dispositivos = $query->fetchAll(); // Obtém todos os dispositivos

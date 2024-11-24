@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const resposta = await fetch(`data.php?setor=${encodeURIComponent(setorSelecionado)}`);
             const dados = await resposta.json();
 
-            // Verifica se há erro
             if (resposta.status !== 200 || dados.erro) {
                 alert(dados.erro || 'Erro ao carregar os dados.');
                 return;
@@ -78,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <tr>
                 <td>${d.pergunta}</td>
                 <td>${d.setor}</td>
-                <td>-</td>
+                <td>${d.dispositivo}</td>
                 <td>${parseFloat(d.media_resposta).toFixed(2)}</td>
                 <td>${d.total_respostas}</td>
             </tr>

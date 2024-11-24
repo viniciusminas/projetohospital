@@ -5,6 +5,18 @@ body {
     padding: 0;
 }
 
+body.login-page {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('http://localhost/projetohospital/img/hospital-regional-alto-vale-30-anos-aniversario-4.jpg');
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
 #loginContainer {
     max-width: 350px;
     width: 100%;

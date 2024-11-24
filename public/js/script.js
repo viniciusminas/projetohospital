@@ -5,20 +5,18 @@ let timerInterval;
 let tempoRestante = 5;
 
 
-// Função para obter os parâmetros da URL
 function obterParametroDaURL(nome) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(nome);
 }
 
 // Capturando o parâmetro necessário (disp)
-const dispositivo = obterParametroDaURL('disp'); // Parâmetro 'disp' é obrigatório
+const dispositivo = obterParametroDaURL('disp');
 
 // Verificando se o parâmetro 'disp' existe
 if (!dispositivo) {
     console.error('Parâmetro "disp" (dispositivo) não encontrado na URL.');
     alert('Erro: Dispositivo não especificado. Certifique-se de acessar a URL correta.');
-    // Opcional: Redirecionar para uma página de erro ou instruir o usuário
 } else {
     console.log(`ID do dispositivo: ${dispositivo}`);
 }
@@ -91,7 +89,6 @@ function enviarResposta() {
         return;
     }
 
-    // Coletando feedback_textual, se disponível
     const feedbackTextual = document.getElementById('feedback_textual')?.value || null;
 
     const dadosEnvio = {
@@ -101,7 +98,7 @@ function enviarResposta() {
         feedback_textual: feedbackTextual
     };
 
-    // Exibindo dados para depuração
+    //depuração
     console.log('Dados enviados:', dadosEnvio);
 
     fetch('../src/respostas.php', {
@@ -172,12 +169,10 @@ function setResposta(valor) {
     console.log("Nota selecionada:", respostaSelecionada);
 }
 
-// Função para limpar seleção visual
 function limparSelecao() {
     document.querySelectorAll('.rating-scale div').forEach(el => el.classList.remove('selected'));
 }
 
-// feedback final (opcional) aqui onde aparece para o usuario uma caixinha para ele inserir um comentário
 function exibirFeedbackFinal() {
     const container = document.querySelector('.container');
     container.innerHTML = `
@@ -202,11 +197,9 @@ function exibirMensagemAgradecimento() {
 }
 
 function getDispositivoId() {
-    return document.getElementById('dispositivo').value;  // campo oculto com ID do dispositivo
+    return document.getElementById('dispositivo').value; 
 }
 
-// Inicializa o carregamento das perguntas ao carregar a página
 carregarPerguntasDoServidor();
 
-// Adiciona evento ao botão "Próxima"
 document.getElementById("botao-proxima").addEventListener("click", proximaPergunta);

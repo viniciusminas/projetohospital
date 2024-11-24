@@ -24,7 +24,6 @@
             </div>
         </div>
 
-        <!-- Escala de avaliação -->
         <div class="rating-scale d-flex justify-content-center gap-2 mb-4">
             <div class="low" onclick="setResposta(1)">1</div>
             <div class="low" onclick="setResposta(2)">2</div>
