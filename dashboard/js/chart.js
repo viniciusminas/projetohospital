@@ -1,5 +1,3 @@
-//nosso chart.js que esta dentro de dashboard > js
-
 function atualizarGrafico(dados) {
     const ctx = document.getElementById('graficoDashboard').getContext('2d');
 
@@ -60,7 +58,7 @@ function criarGraficoRespostas(respostas) {
             responsive: true,  // Torna o gráfico responsivo
             scales: {
                 y: {
-                    beginAtZero: true  // Garante que o gráfico comece em 0
+                    beginAtZero: true
                 }
             }
         }

@@ -13,22 +13,9 @@
 <body onload="carregarPergunta()">
 
     <div class="container">
-        <h1>Hospital Regional Alto Vale</h1>
-        <p id="contador">Pergunta <span id="numero-pergunta">1</p>
+        <p id="contador">Pergunta <span id="numero-pergunta">1</span></p>
         <p id="pergunta-texto">Carregando pergunta...</p>
         <p id="timer"></p>
-
-        <label for="setor">Selecione o Setor Avaliado:</label>
-        <select id="setor" class="form-select mb-3">
-            <option value="" disabled selected>Selecione um setor</option>
-            <option value="1">Recepção</option>
-            <option value="2">Emergência</option>
-            <option value="3">Enfermaria</option>
-            <option value="4">Alimentação</option>
-        </select>
-
-        <input type="hidden" id="dispositivo" value="1"> <!-- Exemplo com ID do dispositivo -->
-
 
         <!-- Spinner de carregamento -->
         <div id="loading-spinner" style="display: none;" class="text-center">
@@ -36,9 +23,6 @@
                 <span class="visually-hidden">Carregando...</span>
             </div>
         </div>
-
-        <p class="dica">Escolha a nota de acordo com a sua experiência, sendo 0 a pior e 10 a melhor avaliação.</p>
-        <p>Escolha uma nota de 0 a 10:</p>
 
         <!-- Escala de avaliação -->
         <div class="rating-scale d-flex justify-content-center gap-2 mb-4">
@@ -63,7 +47,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
 
 </body>
 </html>

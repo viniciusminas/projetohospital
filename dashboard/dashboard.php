@@ -18,24 +18,26 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="dashboard.php">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="cadastrar-perguntas.php" target="_blank">Configurações (Perguntas)</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Sair</a>
-                    
-                </li>
-            </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link active" href="dashboard.php">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="cadastrar-perguntas.php" target="_blank">Configurações (Perguntas)</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="dispositivos.php" target="_blank">Dispositivos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="logout.php">Sair</a>
+            </li>
+        </ul>
+
         </div>
     </div>
 </nav>
     <div class="container py-4">
         <h1 class="text-center mb-4 text-primary">Dashboard - Avaliações</h1>
-        <!-- Seletor de setor e botão -->
         <div class="row mb-4 d-flex align-items-center">
             <div class="col-md-6">
                 <select id="setor" class="form-select shadow-sm">
@@ -51,12 +53,10 @@
             </div>
         </div>
 
-        <!-- Gráfico -->
         <div class="p-4 bg-white rounded shadow">
             <canvas id="graficoDashboard" height="100"></canvas>
         </div>
 
-        <!-- Tabela -->
         <table class="table table-hover mt-4 bg-white rounded shadow">
             <thead class="table-dark">
                 <tr>

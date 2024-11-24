@@ -1,4 +1,3 @@
-/* Estilos globais */
 body {
     background-color: #f8f9fa;
     font-family: 'Arial', sans-serif;
@@ -6,7 +5,6 @@ body {
     padding: 0;
 }
 
-/* Estilos específicos para o login */
 #loginContainer {
     max-width: 350px;
     width: 100%;
@@ -19,7 +17,6 @@ body {
     margin-top: 5%;
 }
 
-/* Títulos */
 h1, h2 {
     color: #0056b3;
     font-weight: bold;
@@ -35,7 +32,6 @@ h2 {
     margin-bottom: 30px;
 }
 
-/* Inputs e botões */
 .form-control {
     width: 100%;
     border-radius: 6px;
@@ -63,7 +59,6 @@ h2 {
     border-color: #004085;
 }
 
-/* Mensagens e alertas */
 #loginMessage {
     font-size: 14px;
     color: red;
@@ -72,24 +67,23 @@ h2 {
 }
 
 .navbar {
-    background-color: #343a40 !important; /* Preto */
-    color: white !important; /* Texto branco */
+    background-color: #343a40 !important; 
+    color: white !important; 
 }
 
 .navbar .nav-link {
-    color: white !important; /* Links brancos */
+    color: white !important; 
     transition: color 0.3s;
 }
 
 .navbar .nav-link:hover {
-    color: #dcdcdc !important; /* Links mais claros ao passar o mouse */
+    color: #dcdcdc !important;
 }
 
 .navbar-brand {
-    color: white !important; /* Título em branco */
+    color: white !important; 
 }
 
-/* Tabelas */
 .table-hover tbody tr:hover {
     background-color: #f1f1f1;
 }
@@ -100,27 +94,23 @@ h2 {
     overflow: hidden;
 }
 
-/* Caixa do gráfico */
 .bg-white {
     background-color: #ffffff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
 
-/* Seleção de formulário */
 .form-select {
     border-radius: 10px;
     padding: 12px;
 }
 
-/* Labels */
 .form-label {
     font-size: 14px;
     font-weight: bold;
     color: #333;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
     #loginContainer {
         width: 90%;

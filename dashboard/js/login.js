@@ -3,18 +3,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const loginMessage = document.getElementById('loginMessage');
     const loginButton = loginForm.querySelector('button[type="submit"]');
 
-    // Evento de envio do formulário
     loginForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Evita recarregar a página
+        event.preventDefault(); 
 
         const formData = new FormData(loginForm);
-        console.log([...formData.entries()]); // Debug: veja os valores enviados
+        console.log([...formData.entries()]);
 
-        // Exibe feedback visual de carregamento
         loginButton.disabled = true;
         loginMessage.textContent = 'Processando...';
 
-        // Envia requisição para o servidor
         fetch('login.php', {
             method: 'POST',
             body: formData,
@@ -27,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 if (data.sucesso) {
-                    alert(data.sucesso); // Exibe mensagem de sucesso
+                    alert(data.sucesso); 
                     window.location.href = 'dashboard.php';
                 } else {
                     mostrarMensagemErro(data.erro || 'Erro ao autenticar.');
@@ -38,13 +35,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 mostrarMensagemErro('Erro ao processar sua solicitação. Tente novamente mais tarde.');
             })
             .finally(() => {
-                loginButton.disabled = false; // Reabilita o botão após a requisição
+                loginButton.disabled = false;
             });
     });
 
-    // Função para exibir mensagens de erro
     function mostrarMensagemErro(mensagem) {
         loginMessage.textContent = mensagem;
-        loginMessage.style.color = 'red'; // Adiciona cor para destacar o erro
+        loginMessage.style.color = 'red'; 
     }
 });

@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Busca os setores para o formulário
 try {
     $setores = $pdo->query("SELECT id, nome FROM setores")->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {

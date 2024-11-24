@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            // Faz a requisição para o servidor
             const resposta = await fetch(`data.php?setor=${encodeURIComponent(setorSelecionado)}`);
             const dados = await resposta.json();
 
@@ -27,10 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             console.log("Dados recebidos:", dados);
 
-            // Atualiza o gráfico
             atualizarGrafico(dados);
 
-            // Atualiza a tabela
             atualizarTabela(dados);
         } catch (erro) {
             console.error('Erro na requisição:', erro);
@@ -38,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Função para atualizar o gráfico
     function atualizarGrafico(dados) {
         if (graficoAtual) {
             graficoAtual.destroy();
@@ -77,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Função para atualizar a tabela
     function atualizarTabela(dados) {
         tabelaDashboard.innerHTML = dados.map(d => `
             <tr>

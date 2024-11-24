@@ -1,7 +1,6 @@
 <?php
 require_once 'db.php';
 
-// Função de login
 function login($login, $senha) {
     $pdo = conectarBanco();
     $sql = "SELECT * FROM usuarios_admin WHERE login = :login";
@@ -17,7 +16,6 @@ function login($login, $senha) {
     return false;
 }
 
-// Verificação de sessão ativa
 function verificarSessao() {
     session_start();
     if (!isset($_SESSION['usuario_id'])) {

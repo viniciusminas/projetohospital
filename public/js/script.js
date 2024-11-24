@@ -4,18 +4,46 @@ let respostaSelecionada = null;
 let timerInterval;
 let tempoRestante = 5;
 
+
+// Função para obter os parâmetros da URL
+function obterParametroDaURL(nome) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(nome);
+}
+
+// Capturando o parâmetro necessário (disp)
+const dispositivo = obterParametroDaURL('disp'); // Parâmetro 'disp' é obrigatório
+
+// Verificando se o parâmetro 'disp' existe
+if (!dispositivo) {
+    console.error('Parâmetro "disp" (dispositivo) não encontrado na URL.');
+    alert('Erro: Dispositivo não especificado. Certifique-se de acessar a URL correta.');
+    // Opcional: Redirecionar para uma página de erro ou instruir o usuário
+} else {
+    console.log(`ID do dispositivo: ${dispositivo}`);
+}
+
+
 function carregarPerguntasDoServidor() {
     document.getElementById('loading-spinner').style.display = 'block';
 
-    fetch('../src/perguntas.php') //requisicao
+    const dispositivoId = obterParametroDaURL('disp'); // Obter o ID do dispositivo da URL
+    if (!dispositivoId) {
+        console.error('ID do dispositivo não encontrado na URL');
+        document.getElementById('loading-spinner').style.display = 'none';
+        document.getElementById('pergunta-texto').innerText = 'ID do dispositivo ausente';
+        return;
+    }
+
+    fetch(`../src/perguntas.php?disp=${dispositivoId}`) // Requisição para pegar perguntas do dispositivo
         .then(response => {
             if (!response.ok) {
                 throw new Error('Falha na requisição: ' + response.statusText);
             }
-            return response.json();
+            return response.json(); // Converte a resposta para JSON
         })
         .then(data => {
-            console.log(data); 
+            console.log("Resposta do servidor:", data);
             document.getElementById('loading-spinner').style.display = 'none';
 
             if (!data || !Array.isArray(data) || data.length === 0) {
@@ -23,8 +51,8 @@ function carregarPerguntasDoServidor() {
                 return;
             }
 
-            perguntas = data; 
-            perguntaAtual = 0; 
+            perguntas = data;
+            perguntaAtual = 0;
             carregarPergunta();
         })
         .catch(error => {
@@ -33,6 +61,8 @@ function carregarPerguntasDoServidor() {
             document.getElementById('pergunta-texto').innerText = 'Nenhuma pergunta disponível';
         });
 }
+
+
 
 function carregarPergunta() {
     if (perguntas.length > 0 && perguntaAtual < perguntas.length) {
@@ -48,31 +78,31 @@ function carregarPergunta() {
 }
 
 function enviarResposta() {
-    const setorElement = document.getElementById('setor');
-    if (!setorElement) {
-        console.error("Erro: elemento 'setor' não encontrado.");
-        alert("Selecione o setor antes de enviar sua resposta.");
-        return;
-    }
-
-    const setorValue = setorElement.value;
-    if (!setorValue) {
-        alert("Selecione um setor antes de continuar.");
-        return;
-    }
-
-    if (respostaSelecionada === null) {
+    if (respostaSelecionada === null || respostaSelecionada === undefined) {
         alert("Por favor, selecione uma nota antes de continuar.");
         return;
     }
 
+    const perguntaId = perguntas[perguntaAtual]?.id_pergunta;
+
+    if (!perguntaId) {
+        console.error('Erro: ID da pergunta não encontrado.');
+        alert('Erro: ID da pergunta não disponível.');
+        return;
+    }
+
+    // Coletando feedback_textual, se disponível
+    const feedbackTextual = document.getElementById('feedback_textual')?.value || null;
+
     const dadosEnvio = {
-        pergunta_id: perguntas[perguntaAtual]?.id_pergunta,
-        id_setor: setorValue,
-        id_dispositivo: getDispositivoId(), // Pega o ID do dispositivo
+        pergunta_id: perguntaId,
+        id_dispositivo: dispositivo,
         resposta: respostaSelecionada,
-        feedback_textual: document.getElementById('feedback')?.value || null 
+        feedback_textual: feedbackTextual
     };
+
+    // Exibindo dados para depuração
+    console.log('Dados enviados:', dadosEnvio);
 
     fetch('../src/respostas.php', {
         method: 'POST',
@@ -81,19 +111,19 @@ function enviarResposta() {
         },
         body: JSON.stringify(dadosEnvio)
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.sucesso) {
-            console.log("Resposta salva com sucesso:", data);
-        } else {
-            console.error("Erro ao salvar resposta:", data.erro);
-            alert("Erro ao salvar sua resposta. Tente novamente.");
-        }
-    })
-    .catch(error => {
-        console.error("Erro na requisição:", error);
-        alert("Erro ao comunicar com o servidor.");
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso) {
+                console.log("Resposta salva com sucesso:", data);
+            } else {
+                console.error("Erro ao salvar resposta:", data.erro);
+                alert("Erro ao salvar sua resposta. Tente novamente.");
+            }
+        })
+        .catch(error => {
+            console.error("Erro na requisição:", error);
+            alert("Erro ao comunicar com o servidor.");
+        });
 }
 
 
@@ -135,15 +165,9 @@ function setResposta(valor) {
     document.querySelectorAll('.rating-scale div').forEach(div => div.classList.remove('selected'));
     document.querySelectorAll('.rating-scale div')[valor - 1].classList.add('selected');
 
-    //só habilita o botão se o setor e pelo menos uma nota for selecionado
-    const setorElement = document.getElementById('setor');
+    // Habilita o botão apenas se uma nota for selecionada
     const botaoProxima = document.getElementById("botao-proxima");
-
-    if (setorElement && setorElement.value) {
-        botaoProxima.disabled = false;
-    } else {
-        botaoProxima.disabled = true;
-    }
+    botaoProxima.disabled = false;
 
     console.log("Nota selecionada:", respostaSelecionada);
 }
@@ -153,14 +177,14 @@ function limparSelecao() {
     document.querySelectorAll('.rating-scale div').forEach(el => el.classList.remove('selected'));
 }
 
-// feedback final (opcional)
+// feedback final (opcional) aqui onde aparece para o usuario uma caixinha para ele inserir um comentário
 function exibirFeedbackFinal() {
     const container = document.querySelector('.container');
     container.innerHTML = `
         <h1>Obrigado pela sua avaliação!</h1>
         <p>Sua avaliação é muito importante para nós. Por favor, deixe um feedback adicional, se desejar:</p>
         <div class="feedback-container">
-            <textarea id="feedback" placeholder="Escreva seu feedback aqui..."></textarea>
+            <textarea id="feedback_textual" placeholder="Escreva seu feedback aqui..."></textarea>
             <button onclick="exibirMensagemAgradecimento()">Enviar Feedback</button>
         </div>
     `;
@@ -172,6 +196,9 @@ function exibirMensagemAgradecimento() {
         <h1>O Hospital Regional Alto Vale (HRAV) agradece sua resposta!</h1>
         <p>Sua avaliação é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.</p>
     `;
+
+    
+
 }
 
 function getDispositivoId() {

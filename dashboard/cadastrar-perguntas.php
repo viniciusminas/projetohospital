@@ -1,27 +1,22 @@
 <?php
-require_once '../src/db.php'; // Importa a conexão com o banco de dados
+require_once '../src/db.php';
 
-// Conexão com o banco
 $conexao = conectarBanco();
 
-// Manipulação de dados
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['pergunta'], $_POST['setor'])) {
-        // Inserção de nova pergunta
         $pergunta = $_POST['pergunta'];
         $setor = $_POST['setor'];
 
         try {
-            $stmt = $conexao->prepare("INSERT INTO perguntas (texto, status) VALUES (:texto, TRUE)");
-            $stmt->execute([':texto' => $pergunta]);
+            $stmt = $conexao->prepare("INSERT INTO perguntas (texto, id_setor, status) VALUES (:texto, :setor, TRUE)");
+            $stmt->execute([':texto' => $pergunta, ':setor' => $setor]);
 
-            // Mensagem de sucesso
             echo "<script>alert('Pergunta cadastrada com sucesso!');</script>";
         } catch (PDOException $e) {
             die("Erro ao inserir pergunta: " . $e->getMessage());
         }
     } elseif (isset($_POST['id'], $_POST['pergunta'])) {
-        // Edição de pergunta existente
         $id = $_POST['id'];
         $pergunta = $_POST['pergunta'];
 
@@ -29,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $conexao->prepare("UPDATE perguntas SET texto = :texto WHERE id = :id");
             $stmt->execute([':texto' => $pergunta, ':id' => $id]);
 
-            // Mensagem de sucesso
             echo "<script>alert('Pergunta editada com sucesso!');</script>";
         } catch (PDOException $e) {
             die("Erro ao editar pergunta: " . $e->getMessage());
@@ -37,20 +31,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Remoção de perguntas (AJAX)
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
 
     try {
-        // Remover pergunta do banco
         $stmt = $conexao->prepare("DELETE FROM perguntas WHERE id = :id");
         $stmt->execute([':id' => $id]);
 
-        // Retorna um JSON com o status de sucesso
         echo json_encode(['status' => 'success']);
         exit();
     } catch (PDOException $e) {
-        // Retorna um JSON com o status de erro
         echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         exit();
     }
@@ -104,6 +94,7 @@ if (isset($_GET['delete'])) {
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
+                    <th>Setor</th>
                     <th>Pergunta</th>
                     <th>Status</th>
                     <th>Ações</th>
@@ -111,11 +102,14 @@ if (isset($_GET['delete'])) {
             </thead>
             <tbody>
                 <?php
-                // Listar perguntas
-                $stmt = $conexao->query("SELECT * FROM perguntas");
+                // Listar perguntas com join para incluir o nome do setor
+                $stmt = $conexao->query("SELECT perguntas.id, perguntas.texto, perguntas.status, setores.nome AS setor_nome 
+                         FROM perguntas
+                         LEFT JOIN setores ON perguntas.id_setor = setores.id");
                 while ($row = $stmt->fetch()) {
                     echo "<tr id='pergunta-{$row['id']}'>
                         <td>{$row['id']}</td>
+                        <td>{$row['setor_nome']}</td>
                         <td>{$row['texto']}</td>
                         <td>" . ($row['status'] ? 'Ativo' : 'Inativo') . "</td>
                         <td>

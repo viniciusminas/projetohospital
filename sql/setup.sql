@@ -2,7 +2,8 @@ CREATE TABLE avaliacoes (
     id SERIAL PRIMARY KEY,
     id_setor INT NOT NULL, 
     id_pergunta INT NOT NULL, )
-    id_dispositivo INT NOT NULL, 
+    id_dispositivo INT NOT NULL,
+    ALTER TABLE perguntas ADD COLUMN id_setor INT; 
     resposta INT NOT NULL CHECK (resposta >= 0 AND resposta <= 10),
     feedback_textual TEXT, 
     data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
