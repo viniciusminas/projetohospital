@@ -28,7 +28,6 @@ function obterSetorIdDoDispositivo($id_dispositivo) {
     }
 }
 
-
 function salvarResposta($pergunta_id, $id_setor, $id_dispositivo, $resposta, $feedback_textual = null) {
     try {
         $pdo = conectarBanco();
@@ -44,12 +43,22 @@ function salvarResposta($pergunta_id, $id_setor, $id_dispositivo, $resposta, $fe
             'feedback_textual' => $feedback_textual
         ]);
 
+        // Log para confirmar a execução bem-sucedida
+        error_log("Resposta salva com sucesso. Dados: " . var_export([
+            'pergunta_id' => $pergunta_id,
+            'id_setor' => $id_setor,
+            'id_dispositivo' => $id_dispositivo,
+            'resposta' => $resposta,
+            'feedback_textual' => $feedback_textual
+        ], true));
+
         return true;
     } catch (PDOException $e) {
         error_log("Erro ao salvar resposta: " . $e->getMessage());
         return false;
     }
 }
+
 
 header('Content-Type: application/json');
 

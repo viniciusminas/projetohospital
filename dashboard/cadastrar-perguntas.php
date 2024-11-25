@@ -46,7 +46,6 @@ if (isset($_GET['delete'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -64,7 +63,8 @@ if (isset($_GET['delete'])) {
 </nav>
 <div class="container py-4">
     <h1 class="text-center mb-4 text-primary">Cadastro de Perguntas</h1>
-    <!-- Formulário -->
+
+    <!-- Formulário de Cadastro de Pergunta -->
     <div class="card p-4 mb-4">
         <form id="formPerguntas" method="POST" action="">
             <div class="mb-3">
@@ -87,9 +87,27 @@ if (isset($_GET['delete'])) {
         </form>
     </div>
 
-    <!-- Tabela -->
+    <!-- Tabela de Perguntas com filtro no lado direito -->
     <div class="card p-4">
-        <h3 class="mb-3">Perguntas Cadastradas</h3>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">Perguntas Cadastradas</h3>
+            <!-- Filtro de Setor -->
+            <form method="GET" action="" class="d-flex align-items-center">
+                <label for="filtroSetor" class="form-label mb-0 me-2">Filtrar:</label>
+                <select id="filtroSetor" name="setor" class="form-select form-select-sm me-2 w-auto" style="min-width: 150px;">
+                <option value="">Todos os Setores</option>
+                    <?php
+                    // Preencher opções de setor para o filtro
+                    $stmt = $conexao->query("SELECT id, nome FROM setores");
+                    while ($setor = $stmt->fetch()) {
+                        echo "<option value='{$setor['id']}'" . (isset($_GET['setor']) && $_GET['setor'] == $setor['id'] ? ' selected' : '') . ">{$setor['nome']}</option>";
+                    }
+                    ?>
+                </select>
+                <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+            </form>
+        </div>
+
         <table class="table table-hover">
             <thead class="table-dark">
                 <tr>
@@ -102,21 +120,39 @@ if (isset($_GET['delete'])) {
             </thead>
             <tbody>
                 <?php
-                // Listar perguntas com join para incluir o nome do setor
-                $stmt = $conexao->query("SELECT perguntas.id, perguntas.texto, perguntas.status, setores.nome AS setor_nome 
-                         FROM perguntas
-                         LEFT JOIN setores ON perguntas.id_setor = setores.id");
+                // Verificar se há um filtro de setor
+                $setorFiltro = isset($_GET['setor']) ? (int) $_GET['setor'] : null;
+
+                // Preparar a consulta SQL com base no filtro
+                $sql = "SELECT perguntas.id, perguntas.texto, perguntas.status, setores.nome AS setor_nome 
+                        FROM perguntas
+                        LEFT JOIN setores ON perguntas.id_setor = setores.id";
+
+                // Se um setor foi selecionado, adicionar a cláusula WHERE
+                if ($setorFiltro) {
+                    $sql .= " WHERE perguntas.id_setor = :setor";
+                }
+
+                $stmt = $conexao->prepare($sql);
+
+                // Se um setor foi selecionado, vincular o parâmetro
+                if ($setorFiltro) {
+                    $stmt->bindParam(':setor', $setorFiltro, PDO::PARAM_INT);
+                }
+
+                $stmt->execute();
+
                 while ($row = $stmt->fetch()) {
                     echo "<tr id='pergunta-{$row['id']}'>
-                        <td>{$row['id']}</td>
-                        <td>{$row['setor_nome']}</td>
-                        <td>{$row['texto']}</td>
-                        <td>" . ($row['status'] ? 'Ativo' : 'Inativo') . "</td>
-                        <td>
-                            <a href='#' class='btn btn-danger btn-sm delete-btn' data-id='{$row['id']}'>Excluir</a>
-                            <button class='btn btn-warning btn-sm' onclick=\"editarPergunta({$row['id']}, '{$row['texto']}')\">Editar</button>
-                        </td>
-                    </tr>";
+                            <td>{$row['id']}</td>
+                            <td>{$row['setor_nome']}</td>
+                            <td>{$row['texto']}</td>
+                            <td>" . ($row['status'] ? 'Ativo' : 'Inativo') . "</td>
+                            <td>
+                                <a href='#' class='btn btn-danger btn-sm delete-btn' data-id='{$row['id']}'>Excluir</a>
+                                <button class='btn btn-warning btn-sm' onclick=\"editarPergunta({$row['id']}, '{$row['texto']}')\">Editar</button>
+                            </td>
+                        </tr>";
                 }
                 ?>
             </tbody>
@@ -134,7 +170,7 @@ if (isset($_GET['delete'])) {
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <input type="hidden" id="editarId" name="id"> <!-- Campo oculto para o ID -->
+          <input type="hidden" id="editarId" name="id"> 
           <div class="mb-3">
             <label for="editarPergunta" class="form-label">Pergunta</label>
             <input type="text" class="form-control" id="editarPergunta" name="pergunta" required>
@@ -151,25 +187,21 @@ if (isset($_GET['delete'])) {
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-// Função para editar pergunta
+
 function editarPergunta(id, texto) {
-    document.getElementById('editarId').value = id; // Preenche o ID oculto
-    document.getElementById('editarPergunta').value = texto; // Preenche o campo de texto da pergunta
-    new bootstrap.Modal(document.getElementById('modalEditar')).show(); // Abre o modal
+    document.getElementById('editarId').value = id; 
+    document.getElementById('editarPergunta').value = texto; 
+    new bootstrap.Modal(document.getElementById('modalEditar')).show(); 
 }
 
-// Função para excluir pergunta com AJAX
 document.addEventListener('DOMContentLoaded', function() {
-    // Adicionar evento para cada botão de exclusão
     document.querySelectorAll('.delete-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
-            e.preventDefault(); // Evitar o comportamento padrão de navegação
+            e.preventDefault(); 
 
             var perguntaId = this.getAttribute('data-id');
 
-            // Confirmação de exclusão
             if (confirm("Tem certeza que deseja excluir esta pergunta?")) {
-                // Fazer uma requisição AJAX para excluir
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', '?delete=' + perguntaId, true);
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -178,14 +210,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         var response = JSON.parse(xhr.responseText);
 
                         if (response.status === 'success') {
-                            // Remover a linha da tabela
                             var row = btn.closest('tr');
                             row.remove();
                             
-                            // Exibir o alerta de sucesso
+
                             alert('Pergunta removida com sucesso!');
                         } else {
-                            // Caso ocorra algum erro
                             alert('Erro ao remover a pergunta: ' + response.message);
                         }
                     }

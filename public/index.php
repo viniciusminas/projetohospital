@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/script.js" defer></script>
     <link rel="icon" href="../img/logo.png" type="image/png">
-</head>
+    <img src="../img/logo.png" alt="Logotipo Hospital Regional" class="logo">
+    </head>
 <body onload="carregarPergunta()">
+    
+<button id="fullscreen-btn" onclick="alternarTelaCheia()">Tela Cheia</button>
 
     <div class="container">
         <p id="contador">Pergunta <span id="numero-pergunta">1</span></p>

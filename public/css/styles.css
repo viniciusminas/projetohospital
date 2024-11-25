@@ -1,4 +1,3 @@
-/* Corpo da página */
 body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
@@ -11,28 +10,54 @@ body {
     box-sizing: border-box;
 }
 
-/* Botão "Próxima" mais quadrado */
-#botao-proxima {
-    font-size: 1.1rem;  /* Tamanho de fonte um pouco menor */
-    padding: 10px 20px;  /* Menos padding */
-    cursor: pointer;
-    border-radius: 4px; /* Bordas mais quadradas */
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    width: auto;  /* Tamanho automático */
-    margin: 0 auto; /* Centralizar */
+.logo {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 50px;
+    height: auto;
+    z-index: 9999;
 }
 
+#fullscreen-btn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    z-index: 9999;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
 
+#fullscreen-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#botao-proxima {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    width: auto;
+    margin: 0 auto;
+}
 
 #botao-proxima:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }
 
-/* Configurações do container */
 .container {
     width: 100%;
-    max-width: 1200px; /* Container maior */
+    max-width: 1200px;
     padding: 20px;
     margin: 0 auto;
     background-color: #f9f9f9;
@@ -41,7 +66,6 @@ body {
     box-sizing: border-box;
 }
 
-/* Título */
 h1 {
     text-align: center;
     color: #333;
@@ -51,7 +75,6 @@ h1 {
     letter-spacing: 1px;
 }
 
-/* Estilo para o contador, timer, dica e parágrafos */
 #contador, #timer, .dica, p {
     text-align: center;
     font-size: 16px;
@@ -64,16 +87,14 @@ h1 {
     color: #666;
 }
 
-/* Estilo para as perguntas */
 #pergunta-texto {
-    font-size: 40px;  /* Aumentei o tamanho da fonte */
+    font-size: 40px;
     color: #444;
     line-height: 1.5;
     margin-bottom: 20px;
     text-align: center;
-    font-weight: bold; /* Deixar a pergunta em negrito */
+    font-weight: bold;
 }
-
 
 #timer {
     font-weight: bold;
@@ -89,7 +110,6 @@ h1 {
     font-weight: 400;
 }
 
-/* Estilo da escala de avaliação */
 .rating-scale {
     display: flex;
     flex-wrap: wrap;
@@ -102,48 +122,45 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70px;  /* Aumentei o tamanho dos botões */
-    height: 70px; /* Aumentei o tamanho dos botões */
-    font-size: 22px; /* Aumentando o tamanho da fonte */
-    border-radius: 6px;  /* Bordas ligeiramente arredondadas para um toque moderno */
+    width: 70px;
+    height: 70px;
+    font-size: 22px;
+    border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efeito de hover nos botões da escala */
 .rating-scale div:hover {
     transform: scale(1.2);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Cores da escala de avaliação */
 .low {
-    background-color: #dc3545;  /* Vermelho */
+    background-color: #dc3545;
     color: #fff;
 }
 
 .mid-low {
-    background-color: #fd7e14;  /* Laranja */
+    background-color: #fd7e14;
     color: #fff;
 }
 
 .mid {
-    background-color: #ffc107;  /* Amarelo */
+    background-color: #ffc107;
     color: #333;
 }
 
 .mid-high {
-    background-color: #28a745;  /* Verde */
+    background-color: #28a745;
     color: #fff;
 }
 
 .high {
-    background-color: #17a2b8;  /* Azul */
+    background-color: #17a2b8;
     color: #fff;
 }
 
-/* Efeito quando a avaliação é selecionada */
 .selected {
     border: 2px solid #333;
     background-color: #cccccc;
@@ -152,7 +169,6 @@ h1 {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilo da área de feedback */
 .feedback-container {
     margin-top: 20px;
     text-align: center;
@@ -165,12 +181,11 @@ h1 {
     margin-bottom: 8px;
 }
 
-/* Estilo do rodapé */
 .footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #343a40;  /* Cor de fundo do rodapé */
+    background-color: #343a40;
     color: #ffffff;
     text-align: center;
     padding: 15px;
@@ -184,7 +199,6 @@ h1 {
     line-height: 1.5;
 }
 
-/* Media Queries */
 @media (max-width: 480px) {
     h1 {
         font-size: 20px;
@@ -235,7 +249,6 @@ h1 {
     }
 }
 
-/* Estilo para o textarea de feedback */
 #feedback_textual {
     width: 100%;
     height: 100px;
@@ -243,41 +256,37 @@ h1 {
     padding: 10px;
     border: 1px solid #ccc;
     font-size: 14px;
-    resize: vertical; /* Permitindo redimensionar verticalmente */
+    resize: vertical;
 }
 
-/* Botão personalizado do Bootstrap */
 .feedback-container button {
-    background-color: #28a745;  /* Verde do Bootstrap (btn-success) */
+    background-color: #28a745;
     color: white;
     border: none;
     padding: 12px 24px;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 4px;  /* Bordas arredondadas */
+    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    width: 100%;  /* Fazendo o botão ocupar toda a largura disponível */
+    width: 100%;
 }
 
-/* Estilo para o botão "Próxima" e "Enviar Feedback" */
 .feedback-container button {
-    background-color: #007bff;  /* Azul do Bootstrap (btn-primary) */
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 12px 24px;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 3px;  /* Bordas mais quadradas */
+    border-radius: 3px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    width: 100%;  /* Fazendo o botão ocupar toda a largura disponível */
+    width: 100%;
 }
 
-/* Efeito de hover no botão */
 .feedback-container button:hover {
-    background-color: #0056b3; /* Cor de hover mais escura */
+    background-color: #0056b3;
     transform: scale(1.03);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-

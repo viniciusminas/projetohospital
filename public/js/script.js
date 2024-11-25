@@ -200,6 +200,35 @@ function getDispositivoId() {
     return document.getElementById('dispositivo').value; 
 }
 
+function alternarTelaCheia() {
+    if (!document.fullscreenElement &&    // Verifica se não está em tela cheia
+        !document.mozFullScreenElement && // Firefox
+        !document.webkitFullscreenElement && // Chrome, Safari, Opera
+        !document.msFullscreenElement) {  // IE/Edge
+        // Entra em tela cheia
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+        }
+    } else {
+        // Sai do modo de tela cheia
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    }
+}
+
 carregarPerguntasDoServidor();
 
 document.getElementById("botao-proxima").addEventListener("click", proximaPergunta);
