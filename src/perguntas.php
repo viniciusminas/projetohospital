@@ -3,15 +3,15 @@ require_once '../src/db.php';
 
 $conexao = conectarBanco();
 
-header('Content-Type: application/json'); // Definir o tipo de conteúdo como JSON
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
-        // Verifica se o parâmetro 'disp' foi passado na URL
+        // verifica se o parâmetro 'disp' foi passado na URL
         $disp = isset($_GET['disp']) ? intval($_GET['disp']) : null;
 
         if ($disp !== null) {
-            // Primeiro, busca o setor associado ao dispositivo
+            //busca o setor associado ao dispositivo
             $stmtSetor = $conexao->prepare("SELECT setor_id FROM dispositivos WHERE id = :disp");
             $stmtSetor->bindParam(':disp', $disp, PDO::PARAM_INT);
             $stmtSetor->execute();
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if ($setor) {
                 $setorId = $setor['setor_id'];
 
-                // Consulta para buscar as perguntas do setor associado
+                //buscar as perguntas do setor associado
                 $stmtPerguntas = $conexao->prepare("SELECT perguntas.id AS id_pergunta, perguntas.texto AS texto_pergunta, setores.nome AS setor_nome 
                                                     FROM perguntas
                                                     LEFT JOIN setores ON perguntas.id_setor = setores.id
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 if (empty($perguntas)) {
                     echo json_encode(['erro' => 'Nenhuma pergunta encontrada para este setor']);
                 } else {
-                    echo json_encode($perguntas); // Retorna as perguntas do setor
+                    echo json_encode($perguntas); // retorna as perguntas do setor
                 }
             } else {
                 echo json_encode(['erro' => 'Dispositivo não encontrado ou sem setor associado']);

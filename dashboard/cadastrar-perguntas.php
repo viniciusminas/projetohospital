@@ -64,7 +64,6 @@ if (isset($_GET['delete'])) {
 <div class="container py-4">
     <h1 class="text-center mb-4 text-primary">Cadastro de Perguntas</h1>
 
-    <!-- Formulário de Cadastro de Pergunta -->
     <div class="card p-4 mb-4">
         <form id="formPerguntas" method="POST" action="">
             <div class="mb-3">
@@ -87,11 +86,10 @@ if (isset($_GET['delete'])) {
         </form>
     </div>
 
-    <!-- Tabela de Perguntas com filtro no lado direito -->
     <div class="card p-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="mb-0">Perguntas Cadastradas</h3>
-            <!-- Filtro de Setor -->
+            <!-- Filtro para Setor -->
             <form method="GET" action="" class="d-flex align-items-center">
                 <label for="filtroSetor" class="form-label mb-0 me-2">Filtrar:</label>
                 <select id="filtroSetor" name="setor" class="form-select form-select-sm me-2 w-auto" style="min-width: 150px;">
@@ -120,22 +118,20 @@ if (isset($_GET['delete'])) {
             </thead>
             <tbody>
                 <?php
-                // Verificar se há um filtro de setor
+                //filtro de setor
                 $setorFiltro = isset($_GET['setor']) ? (int) $_GET['setor'] : null;
 
-                // Preparar a consulta SQL com base no filtro
+
                 $sql = "SELECT perguntas.id, perguntas.texto, perguntas.status, setores.nome AS setor_nome 
                         FROM perguntas
                         LEFT JOIN setores ON perguntas.id_setor = setores.id";
 
-                // Se um setor foi selecionado, adicionar a cláusula WHERE
                 if ($setorFiltro) {
                     $sql .= " WHERE perguntas.id_setor = :setor";
                 }
 
                 $stmt = $conexao->prepare($sql);
 
-                // Se um setor foi selecionado, vincular o parâmetro
                 if ($setorFiltro) {
                     $stmt->bindParam(':setor', $setorFiltro, PDO::PARAM_INT);
                 }
@@ -160,7 +156,6 @@ if (isset($_GET['delete'])) {
     </div>
 </div>
 
-<!-- Modal de Edição -->
 <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['erro' => 'Usuário ou senha inválidos.']);
     }
 } else {
-    http_response_code(405); // Método não permitido
+    http_response_code(405);
     echo json_encode(['erro' => 'Método de requisição inválido.']);
 }
 ?>

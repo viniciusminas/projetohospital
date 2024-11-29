@@ -28,9 +28,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="dispositivos.php" target="_blank">Dispositivos</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="logout.php">Sair</a>
-            </li>
         </ul>
 
         </div>

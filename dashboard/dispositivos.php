@@ -7,7 +7,7 @@ if (!$pdo) {
 
 try {
     $query = $pdo->query("SELECT id, nome, setor_id FROM dispositivos");
-    $dispositivos = $query->fetchAll(); // Obtém todos os dispositivos
+    $dispositivos = $query->fetchAll();
 } catch (PDOException $e) {
     die("Erro ao consultar dispositivos: " . $e->getMessage());
 }
@@ -32,7 +32,6 @@ try {
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link active" href="dispositivos.php">Dispositivos</a></li>
-                <li class="nav-item"><a class="nav-link" href="logout.php">Sair</a></li>
             </ul>
         </div>
     </div>
@@ -41,7 +40,6 @@ try {
 <div class="container py-4">
     <h1 class="text-center mb-4 text-primary">Cadastro de Dispositivos</h1>
 
-    <!-- Formulário para cadastrar dispositivo -->
     <form method="POST" action="salvar-dispositivo.php">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome do Dispositivo</label>
@@ -60,7 +58,6 @@ try {
         <button type="submit" class="btn btn-primary">Salvar</button>
     </form>
 
-    <!-- Lista de dispositivos -->
     <h2 class="mt-4">Dispositivos Cadastrados</h2>
     <table class="table table-hover">
         <thead>
@@ -81,7 +78,6 @@ try {
         </tbody>
     </table>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

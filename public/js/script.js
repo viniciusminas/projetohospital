@@ -4,16 +4,15 @@ let respostaSelecionada = null;
 let timerInterval;
 let tempoRestante = 5;
 
-
 function obterParametroDaURL(nome) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(nome);
 }
 
-// Capturando o parâmetro necessário (disp)
+// capturando o parâmetro necessário (disp)
 const dispositivo = obterParametroDaURL('disp');
 
-// Verificando se o parâmetro 'disp' existe
+// verificando se o parâmetro 'disp' existe
 if (!dispositivo) {
     console.error('Parâmetro "disp" (dispositivo) não encontrado na URL.');
     alert('Erro: Dispositivo não especificado. Certifique-se de acessar a URL correta.');
@@ -21,11 +20,10 @@ if (!dispositivo) {
     console.log(`ID do dispositivo: ${dispositivo}`);
 }
 
-
 function carregarPerguntasDoServidor() {
     document.getElementById('loading-spinner').style.display = 'block';
 
-    const dispositivoId = obterParametroDaURL('disp'); // Obter o ID do dispositivo da URL
+    const dispositivoId = obterParametroDaURL('disp'); // obter o ID do dispositivo da URL
     if (!dispositivoId) {
         console.error('ID do dispositivo não encontrado na URL');
         document.getElementById('loading-spinner').style.display = 'none';
@@ -33,12 +31,12 @@ function carregarPerguntasDoServidor() {
         return;
     }
 
-    fetch(`../src/perguntas.php?disp=${dispositivoId}`) // Requisição para pegar perguntas do dispositivo
+    fetch(`../src/perguntas.php?disp=${dispositivoId}`) //requisição para pegar perguntas do dispositivo
         .then(response => {
             if (!response.ok) {
                 throw new Error('Falha na requisição: ' + response.statusText);
             }
-            return response.json(); // Converte a resposta para JSON
+            return response.json(); //converte a resposta para JSON
         })
         .then(data => {
             console.log("Resposta do servidor:", data);
@@ -59,8 +57,6 @@ function carregarPerguntasDoServidor() {
             document.getElementById('pergunta-texto').innerText = 'Nenhuma pergunta disponível';
         });
 }
-
-
 
 function carregarPergunta() {
     if (perguntas.length > 0 && perguntaAtual < perguntas.length) {
@@ -123,13 +119,12 @@ function enviarResposta() {
         });
 }
 
-
 function proximaPergunta() {
     if (respostaSelecionada === null) {
         alert("Por favor, selecione uma nota de 0 a 10.");
         return;
     }
-
+ 
     enviarResposta(); //só avanca se enviar a resposta primeiro.
 
     if (perguntaAtual < perguntas.length - 1) {
@@ -140,9 +135,8 @@ function proximaPergunta() {
     }
 }
 
-// timer (em decisão se deixarei esse timer)
 function iniciarTimer() {
-    tempoRestante = 5; //reiniciar o time
+    tempoRestante = 5; //reiniciar o time (decidindo ainda se deixo o timer ou não)
     document.getElementById("timer").innerText = `Tempo restante: ${tempoRestante}s`;
 
     timerInterval = setInterval(() => {
@@ -162,7 +156,7 @@ function setResposta(valor) {
     document.querySelectorAll('.rating-scale div').forEach(div => div.classList.remove('selected'));
     document.querySelectorAll('.rating-scale div')[valor - 1].classList.add('selected');
 
-    // Habilita o botão apenas se uma nota for selecionada
+    //o botão fica habilitado somente se a nota for selecionada
     const botaoProxima = document.getElementById("botao-proxima");
     botaoProxima.disabled = false;
 
@@ -191,9 +185,6 @@ function exibirMensagemAgradecimento() {
         <h1>O Hospital Regional Alto Vale (HRAV) agradece sua resposta!</h1>
         <p>Sua avaliação é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.</p>
     `;
-
-    
-
 }
 
 function getDispositivoId() {
@@ -201,11 +192,10 @@ function getDispositivoId() {
 }
 
 function alternarTelaCheia() {
-    if (!document.fullscreenElement &&    // Verifica se não está em tela cheia
-        !document.mozFullScreenElement && // Firefox
-        !document.webkitFullscreenElement && // Chrome, Safari, Opera
-        !document.msFullscreenElement) {  // IE/Edge
-        // Entra em tela cheia
+    if (!document.fullscreenElement &&    
+        !document.mozFullScreenElement && 
+        !document.webkitFullscreenElement && 
+        !document.msFullscreenElement) {  
         if (document.documentElement.requestFullscreen) {
             document.documentElement.requestFullscreen();
         } else if (document.documentElement.mozRequestFullScreen) {
@@ -216,7 +206,7 @@ function alternarTelaCheia() {
             document.documentElement.msRequestFullscreen();
         }
     } else {
-        // Sai do modo de tela cheia
+        // sai do modo de tela cheia
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.mozCancelFullScreen) {
