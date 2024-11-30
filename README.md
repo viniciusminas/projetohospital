@@ -18,9 +18,5 @@ Projeto acadêmico de um sistema de avaliação de serviços hospitalares desenv
 - **Banco de Dados**: POSTGRESQL
 - **Ferramentas**: XAMPP para ambiente de desenvolvimento local
 
-## Estrutura do Projeto
+## Estrutura do Projeto {Em construção}
 
-- `index.php`: Página principal da aplicação, onde o usuário realiza a avaliação.
-- `js/script.js`: Arquivo JavaScript que gerencia a lógica do frontend, como carregamento de perguntas, controle do timer e navegação entre perguntas.
-- `src/perguntas.php`: Endpoint responsável por enviar as perguntas do banco de dados para o frontend em formato JSON.
-- `css/styles.css`: Arquivo de estilos CSS personalizado.
